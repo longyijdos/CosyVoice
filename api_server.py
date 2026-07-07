@@ -31,9 +31,13 @@ parser.add_argument("--load_jit", action="store_true", help="Load JIT artifacts 
 parser.add_argument("--load_trt", action="store_true", help="Load TensorRT artifacts if available")
 parser.add_argument("--load_vllm", action="store_true", help="Load vLLM artifacts if available")
 parser.add_argument("--trt_concurrent", type=int, default=1, help="TensorRT concurrency")
-parser.add_argument("--stt_model", default="medium", help="faster-whisper model name or local path")
+parser.add_argument(
+    "--stt_model",
+    default="pretrained_models/stt/faster-whisper-large-v3",
+    help="faster-whisper model name or local path",
+)
 parser.add_argument("--stt_device", default="auto", choices=["auto", "cuda", "cpu"], help="STT inference device")
-parser.add_argument("--stt_compute_type", default="int8_float16", help="faster-whisper compute type")
+parser.add_argument("--stt_compute_type", default="float16", help="faster-whisper compute type")
 parser.add_argument(
     "--stt_download_root",
     default="pretrained_models/stt",

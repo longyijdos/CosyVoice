@@ -18,9 +18,9 @@ uv run api_server.py \
   --host 0.0.0.0 \
   --port 50001 \
   --model_dir pretrained_models/Fun-CosyVoice3-0.5B \
-  --stt_model pretrained_models/stt/models--Systran--faster-whisper-medium/snapshots/08e178d48790749d25932bbc082711ddcfdfbc4f \
+  --stt_model pretrained_models/stt/faster-whisper-large-v3 \
   --stt_device auto \
-  --stt_compute_type int8_float16 \
+  --stt_compute_type float16 \
   --stt_download_root pretrained_models/stt
 ```
 
@@ -54,9 +54,9 @@ FP16=1 LOAD_VLLM=1 ./start_api_server.sh
 | `--load_trt` | 关闭 | 加载或生成 TensorRT artifact。需要 TensorRT 环境。 |
 | `--load_vllm` | 关闭 | 使用 vLLM 加速 CosyVoice2/3 的 LLM 部分。 |
 | `--trt_concurrent` | `1` | TensorRT 并发 context 数。仅 `--load_trt` 使用。 |
-| `--stt_model` | `medium` | faster-whisper 模型名或本地目录。 |
+| `--stt_model` | `pretrained_models/stt/faster-whisper-large-v3` | faster-whisper 模型名或本地目录。 |
 | `--stt_device` | `auto` | STT 设备，可选 `auto`、`cuda`、`cpu`。 |
-| `--stt_compute_type` | `int8_float16` | faster-whisper compute type。 |
+| `--stt_compute_type` | `float16` | faster-whisper compute type。 |
 | `--stt_download_root` | `pretrained_models/stt` | STT 模型下载目录。 |
 
 脚本支持同名大写环境变量，例如 `HOST`、`PORT`、`MODEL_DIR`、`STT_MODEL`、
@@ -65,21 +65,16 @@ FP16=1 LOAD_VLLM=1 ./start_api_server.sh
 
 ## STT 模型
 
-默认会加载 faster-whisper `medium`，并把模型文件放在：
+默认会加载本地 faster-whisper `large-v3` 模型：
 
 ```text
-pretrained_models/stt
+pretrained_models/stt/faster-whisper-large-v3
 ```
 
-如果希望启动时不访问 HuggingFace 检查 revision，可以把 `--stt_model` 指向本地
-snapshot 目录：
+如果需要降低显存占用，可以切回量化 compute type：
 
 ```bash
-uv run api_server.py \
-  --host 0.0.0.0 \
-  --port 50001 \
-  --model_dir pretrained_models/Fun-CosyVoice3-0.5B \
-  --stt_model pretrained_models/stt/models--Systran--faster-whisper-medium/snapshots/08e178d48790749d25932bbc082711ddcfdfbc4f
+STT_COMPUTE_TYPE=int8_float16 ./start_api_server.sh
 ```
 
 ## 运行说明
