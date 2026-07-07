@@ -36,6 +36,9 @@ http://192.168.5.4:50001
 | `instruct` | `spk_id`、`instruct_text`。 |
 | `instruct2` | 已注册的 `zero_shot_spk_id`、`instruct_text`。 |
 
+使用 CosyVoice3 时，`cross_lingual` 的 `text` 和 `instruct2` 的
+`instruct_text` 会自动补齐 `<|endofprompt|>` 分隔符；调用方仍按普通字符串传参。
+
 ## GET /health
 
 服务探活。
@@ -89,6 +92,8 @@ curl --noproxy '*' 'http://127.0.0.1:50001/speakers/exists?spk_id=kana'
 ## POST /speakers/register
 
 注册 zero-shot persona。生成接口不接收参考音频，必须先通过这个接口注册。
+使用 CosyVoice3 时，服务端会自动为 `prompt_text` 补齐 CosyVoice3 需要的
+`You are a helpful assistant.<|endofprompt|>` 前缀。
 
 请求使用 `multipart/form-data`。
 

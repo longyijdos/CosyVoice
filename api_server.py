@@ -67,6 +67,8 @@ infer_lock = threading.Lock()
 stt_model = None
 stt_lock = threading.Lock()
 opencc_converters = {}
+COSYVOICE3_PROMPT_PREFIX = "You are a helpful assistant."
+COSYVOICE3_PROMPT_SEPARATOR = "<|endofprompt|>"
 
 
 def _get_stt_model():
@@ -113,6 +115,17 @@ def _convert_chinese_text(text: str, mode: str) -> str:
         converter = OpenCC(config)
         opencc_converters[config] = converter
     return converter.convert(text)
+
+
+def _is_cosyvoice3() -> bool:
+    return cosyvoice.__class__.__name__ == "CosyVoice3"
+
+
+def _cosyvoice3_prompt(text: str) -> str:
+    text = text.strip()
+    if COSYVOICE3_PROMPT_SEPARATOR in text:
+        return text
+    return f"{COSYVOICE3_PROMPT_PREFIX}{COSYVOICE3_PROMPT_SEPARATOR}{text}"
 
 
 with stt_lock:
@@ -230,6 +243,8 @@ def _build_model_output(
             raise ValueError("zero_shot_spk_id is required for cross_lingual mode")
         if zero_shot_spk_id not in cosyvoice.frontend.spk2info:
             raise ValueError(f"zero_shot_spk_id {zero_shot_spk_id!r} is not registered")
+        if _is_cosyvoice3():
+            text = _cosyvoice3_prompt(text)
         return cosyvoice.inference_cross_lingual(
             text,
             "",
@@ -261,6 +276,8 @@ def _build_model_output(
             raise ValueError(f"zero_shot_spk_id {zero_shot_spk_id!r} is not registered")
         if not instruct_text:
             raise ValueError("instruct_text is required for instruct2 mode")
+        if _is_cosyvoice3():
+            instruct_text = _cosyvoice3_prompt(instruct_text)
         if not hasattr(cosyvoice, "inference_instruct2"):
             raise ValueError("instruct2 mode is not supported by this model")
         return cosyvoice.inference_instruct2(
@@ -331,6 +348,8 @@ async def register_speaker(
         raise HTTPException(status_code=400, detail="prompt_text must not be empty")
     if spk_id in cosyvoice.frontend.spk2info and not overwrite:
         raise HTTPException(status_code=409, detail=f"speaker {spk_id!r} already exists")
+    if _is_cosyvoice3():
+        prompt_text = _cosyvoice3_prompt(prompt_text)
 
     voice_path = await _save_upload(voice, "voice")
     try:
