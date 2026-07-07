@@ -17,7 +17,7 @@
 uv run api_server.py \
   --host 0.0.0.0 \
   --port 50001 \
-  --model_dir pretrained_models/CosyVoice2-0.5B \
+  --model_dir pretrained_models/Fun-CosyVoice3-0.5B \
   --stt_model pretrained_models/stt/models--Systran--faster-whisper-medium/snapshots/08e178d48790749d25932bbc082711ddcfdfbc4f \
   --stt_device auto \
   --stt_compute_type int8_float16 \
@@ -27,7 +27,7 @@ uv run api_server.py \
 可以通过环境变量覆盖默认值：
 
 ```bash
-HOST=0.0.0.0 PORT=50001 MODEL_DIR=pretrained_models/CosyVoice2-0.5B ./start_api_server.sh
+HOST=0.0.0.0 PORT=50001 MODEL_DIR=pretrained_models/Fun-CosyVoice3-0.5B ./start_api_server.sh
 ```
 
 如果环境已安装并兼容 vLLM，可以开启加速：
@@ -48,7 +48,7 @@ FP16=1 LOAD_VLLM=1 ./start_api_server.sh
 | --- | --- | --- |
 | `--host` | `0.0.0.0` | 监听地址。LAN 调用保持默认即可。 |
 | `--port` | `50001` | HTTP 端口。 |
-| `--model_dir` | `pretrained_models/CosyVoice2-0.5B` | 本地模型目录或 ModelScope repo id。 |
+| `--model_dir` | `pretrained_models/Fun-CosyVoice3-0.5B` | 本地模型目录或 ModelScope repo id。 |
 | `--fp16` | 关闭 | 使用 FP16 推理。需要 CUDA。 |
 | `--load_jit` | 关闭 | 加载 JIT artifact。需要模型目录内已有对应文件。 |
 | `--load_trt` | 关闭 | 加载或生成 TensorRT artifact。需要 TensorRT 环境。 |
@@ -78,7 +78,7 @@ snapshot 目录：
 uv run api_server.py \
   --host 0.0.0.0 \
   --port 50001 \
-  --model_dir pretrained_models/CosyVoice2-0.5B \
+  --model_dir pretrained_models/Fun-CosyVoice3-0.5B \
   --stt_model pretrained_models/stt/models--Systran--faster-whisper-medium/snapshots/08e178d48790749d25932bbc082711ddcfdfbc4f
 ```
 

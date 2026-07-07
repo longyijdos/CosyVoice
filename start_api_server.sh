@@ -3,7 +3,7 @@ set -euo pipefail
 
 HOST="${HOST:-0.0.0.0}"
 PORT="${PORT:-50001}"
-MODEL_DIR="${MODEL_DIR:-pretrained_models/CosyVoice2-0.5B}"
+MODEL_DIR="${MODEL_DIR:-pretrained_models/Fun-CosyVoice3-0.5B}"
 STT_MODEL="${STT_MODEL:-pretrained_models/stt/models--Systran--faster-whisper-medium/snapshots/08e178d48790749d25932bbc082711ddcfdfbc4f}"
 STT_DEVICE="${STT_DEVICE:-auto}"
 STT_COMPUTE_TYPE="${STT_COMPUTE_TYPE:-int8_float16}"

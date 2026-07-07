@@ -25,7 +25,7 @@ parser = argparse.ArgumentParser(
 )
 parser.add_argument("--host", default="0.0.0.0", help="Host to bind")
 parser.add_argument("--port", type=int, default=50001, help="Port to bind")
-parser.add_argument("--model_dir", default="pretrained_models/CosyVoice2-0.5B", help="Model directory or ModelScope repo id")
+parser.add_argument("--model_dir", default="pretrained_models/Fun-CosyVoice3-0.5B", help="Model directory or ModelScope repo id")
 parser.add_argument("--fp16", action="store_true", help="Use FP16 inference if supported")
 parser.add_argument("--load_jit", action="store_true", help="Load JIT artifacts if available")
 parser.add_argument("--load_trt", action="store_true", help="Load TensorRT artifacts if available")
